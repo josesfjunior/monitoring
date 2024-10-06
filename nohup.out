@@ -1,0 +1,38 @@
+[info] Running MonitoringWeb.Endpoint with Bandit 1.5.7 at 127.0.0.1:4000 (http)
+[info] Access MonitoringWeb.Endpoint at http://localhost:4000
+[watch] build finished, watching for changes...
+
+Rebuilding...
+
+Done in 172ms.
+Compiling 17 files (.ex)
+warning: defining a Gettext backend by calling
+
+    use Gettext, otp_app: ...
+
+is deprecated. To define a backend, call:
+
+    use Gettext.Backend, otp_app: :my_app
+
+Then, instead of importing your backend, call this in your module:
+
+    use Gettext, backend: MyApp.Gettext
+
+  lib/monitoring_web/gettext.ex:23: MonitoringWeb.Gettext (module)
+
+Generated monitoring app
+[info] Running MonitoringWeb.Endpoint with Bandit 1.5.7 at 0.0.0.0:4567 (http)
+[info] Access MonitoringWeb.Endpoint at http://localhost:4567
+[watch] build finished, watching for changes...
+
+Rebuilding...
+
+Done in 170ms.
+[debug] QUERY OK source="carrefour" db=6.5ms decode=1.1ms queue=2.4ms idle=470.5ms
+INSERT INTO "carrefour" ("name","day","price","inserted_at","updated_at","id") VALUES ($1,$2,$3,$4,$5,$6) ["Lava e Seca Smart LG VC4 12kg Branca CV5012WC4", ~U[2024-10-06 03:08:26Z], 3899, ~N[2024-10-06 03:08:26], ~N[2024-10-06 03:08:26], "ca244017-e181-4c7d-b66e-7bb72409ad1b"]
+[90m↳ Monitoring.Price.Carrefour.handle_info/2, at: lib/monitoring/price/carrefour.ex:25[0m
+[info] GET /
+[debug] Processing with MonitoringWeb.PageController.home/2
+  Parameters: %{}
+  Pipelines: [:browser]
+[info] Sent 200 in 20ms
