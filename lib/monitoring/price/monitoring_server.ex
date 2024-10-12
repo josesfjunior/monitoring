@@ -21,7 +21,6 @@ defmodule Monitoring.Price.MonitoringServer do
   end
 
   def handle_info(:inicializate, %{products: products} = state) do
-
     carrefour_servers = products
     |> Enum.filter(fn product -> product.store == "carrefour" end)
     |> Enum.map(fn product -> GCarrefour.start_link(
@@ -29,17 +28,6 @@ defmodule Monitoring.Price.MonitoringServer do
     ) end)
     |> Enum.map(fn {_, pid} -> pid end)
 
-
-
-
-
     {:noreply, state |> Map.put(:carrefour_servers, carrefour_servers)}
   end
-
-
-
-
-
-
-
 end

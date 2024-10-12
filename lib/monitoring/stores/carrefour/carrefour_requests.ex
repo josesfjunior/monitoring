@@ -9,7 +9,10 @@ defmodule Monitoring.Stores.CarrefourRequests do
     |> Enum.at(2)
     |> Jason.decode!()
     |> Map.get("offers")
-    |> Map.get("highPrice")
+    |> Map.get("offers")
+    |> Enum.at(0)
+    |> Map.get("price")
+    |> trunc()
   end
 
   defp parse_content({:ok, %HTTPoison.Response{status_code: 200, body: body}}), do: body

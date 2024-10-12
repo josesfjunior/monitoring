@@ -5,7 +5,7 @@ defmodule Monitoring.Schemas.Carrefour do
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
-  schema "carrefour" do
+  schema "monitoring_prices" do
     field :name, :string
     field :price, :integer
     field :day, :utc_datetime
@@ -13,7 +13,7 @@ defmodule Monitoring.Schemas.Carrefour do
   end
 
   @doc false
-  def changeset(%__MODULE__{} = ch,attrs \\ %{}) do
+  def changeset(%__MODULE__{} = ch, attrs \\ %{}) do
     ch
     |> cast(attrs, [:name, :price, :day])
     |> validate_required([:name, :price, :day])
@@ -24,6 +24,4 @@ defmodule Monitoring.Schemas.Carrefour do
     |> changeset(attrs)
     |> Repo.insert()
   end
-
-
 end

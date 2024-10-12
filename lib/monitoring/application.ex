@@ -14,7 +14,7 @@ defmodule Monitoring.Application do
       {Phoenix.PubSub, name: Monitoring.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Monitoring.Finch},
-      {Monitoring.Price.MonitoringServer, %{}},
+      # {Monitoring.Price.MonitoringServer, %{}},
       {Registry, keys: :unique, name: MonitoringRegistry},
       # Start a worker by calling: Monitoring.Worker.start_link(arg)
       # {Monitoring.Worker, arg},
