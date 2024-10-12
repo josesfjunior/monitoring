@@ -1,7 +1,8 @@
-defmodule Monitoring.Schemas.Carrefour do
+defmodule Monitoring.Schemas.MonitoringPrices do
   use Ecto.Schema
   import Ecto.Changeset
   alias Monitoring.Repo
+  alias Monitoring.Schemas.Stores, as: Stores
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
@@ -9,6 +10,7 @@ defmodule Monitoring.Schemas.Carrefour do
     field :name, :string
     field :price, :integer
     field :day, :utc_datetime
+    belongs_to :store, Stores, type: :binary_id
     timestamps()
   end
 
@@ -19,9 +21,16 @@ defmodule Monitoring.Schemas.Carrefour do
     |> validate_required([:name, :price, :day])
   end
 
-  def insert_carrefour(attrs) do
-    %__MODULE__{}
-    |> changeset(attrs)
-    |> Repo.insert()
+  def insert(%{name: _, price: _, day: _, store: store_name} = attrs) do
+    case Stores.get_store(store_name) do
+      nil ->
+        Stores.insert_stores(%{name: store_name})
+
+      store ->
+        %__MODULE__{}
+        |> changeset(attrs)
+        |> put_assoc(:store, store)
+        |> Repo.insert()
+    end
   end
 end

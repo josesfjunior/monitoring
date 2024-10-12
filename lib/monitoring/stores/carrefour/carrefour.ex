@@ -1,6 +1,6 @@
 defmodule Monitoring.Stores.Carrefour do
   use GenServer
-  alias Monitoring.Schemas.Carrefour, as: SC
+  alias Monitoring.Schemas.MonitoringPrices, as: MP
   alias Monitoring.Stores.CarrefourRequests, as: CReq
 
   # Inicia o GenServer com nome registrado no Registry
@@ -25,7 +25,7 @@ defmodule Monitoring.Stores.Carrefour do
     price = CReq.fetch(link)
 
     # Inserindo no banco
-    SC.insert_carrefour(%{name: name, price: price, day: DateTime.utc_now()})
+    MP.insert(%{name: name, price: price, day: DateTime.utc_now(), store: "carrefour"})
 
     # Reagendamento da tarefa
     timer = Process.send_after(self(), :main, rh)
@@ -36,5 +36,4 @@ defmodule Monitoring.Stores.Carrefour do
 
   # Helper function para construir a tupla via_tuple
   defp via_tuple(name), do: {:via, Registry, {MonitoringRegistry, name}}
-
 end

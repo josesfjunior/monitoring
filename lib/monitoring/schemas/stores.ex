@@ -1,6 +1,7 @@
 defmodule Monitoring.Schemas.Stores do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
   alias Monitoring.Repo
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -20,14 +21,18 @@ defmodule Monitoring.Schemas.Stores do
   def insert_stores(attrs) do
     %__MODULE__{}
     |> changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert!()
   end
 
   def get_stores do
     Repo.all(__MODULE__)
   end
 
-  def get_store(id) do
-    Repo.get(__MODULE__, id)
+  def get_store(name) do
+    from(
+      s in __MODULE__,
+      where: s.name == ^name
+    )
+    |> Repo.one()
   end
 end

@@ -3,8 +3,8 @@ defmodule Monitoring.Price.MonitoringServer do
   alias Monitoring.Schemas.Products
   alias Monitoring.Stores.Carrefour, as: GCarrefour
 
-  @verify 12 * 60 * 60 * 1000 # hours
-
+  # hours
+  @verify 12 * 60 * 60 * 1000
 
   def start_link(params \\ %{}) do
     GenServer.start_link(__MODULE__, params, name: __MODULE__)
@@ -21,13 +21,17 @@ defmodule Monitoring.Price.MonitoringServer do
   end
 
   def handle_info(:inicializate, %{products: products} = state) do
-    carrefour_servers = products
-    |> Enum.filter(fn product -> product.store == "carrefour" end)
-    |> Enum.map(fn product -> GCarrefour.start_link(
-      %{link: product.link, name: product.name, refresh_hour: @verify}
-    ) end)
-    |> Enum.map(fn {_, pid} -> pid end)
+    carrefour_servers = start_carrefour(products)
 
     {:noreply, state |> Map.put(:carrefour_servers, carrefour_servers)}
+  end
+
+  defp start_carrefour(products) do
+    products
+    |> Enum.filter(fn product -> product.store.name == "carrefour" end)
+    |> Enum.map(fn product ->
+      GCarrefour.start_link(%{link: product.link, name: product.name, refresh_hour: @verify})
+    end)
+    |> Enum.map(fn {_, pid} -> pid end)
   end
 end
